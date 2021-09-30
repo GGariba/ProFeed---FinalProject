@@ -26,7 +26,6 @@ namespace TwitterAPI.Models
     
 
 
-        //DONE
         public List<IUser> PreliminaryFiltering(ITweet[] forFilter)
         {
             for(int i = 0;  i<forFilter.Length;i++)
@@ -168,7 +167,7 @@ namespace TwitterAPI.Models
         }
 
     
-        //unresolved, mayby not relevant
+        //
         public string[] QuerySearchKeys(string query)
         {
             var keys = query.Split(',');

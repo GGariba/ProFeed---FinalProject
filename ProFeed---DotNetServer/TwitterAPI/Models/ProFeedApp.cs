@@ -10,12 +10,7 @@ namespace TwitterAPI.Models
 {
     public class ProFeedApp
     {
-        //const double PRO_RANGE = 0.35;
-        //const double MIN_RANGE = 0.25;
-        //const int MINIMUM_RETWEETS = 5;
-        //private string[] searchQuery = { "fintech", "stockExchange", "forex" };
         private string[] searchQuery;
-        private SemaphoreSlim taskSemaphore = new SemaphoreSlim(1, 1);
 
         public ProFeedAlg ProFeedAlgorithm { get; set; }
         public TwitterModel ProFeedTwitterModel { get; set; }
@@ -27,27 +22,25 @@ namespace TwitterAPI.Models
             ProFeedTwitterModel = new TwitterModel();
             SearchData = new TData();
         }
-        //unresolved
+
         public ProFeedApp(string query)
         {
             ProFeedAlgorithm = new ProFeedAlg();
             ProFeedTwitterModel = new TwitterModel();
             SearchData = new TData();
-            //to be continued, with search keys from controller
         }
 
-        //was work before
+        //
         public async Task InfluencersToProfile(IUser user,int index)
         {
             try
             {
                 var timeline = await ProFeedTwitterModel.GetUserTimeline(user);
                 var fullUser = await ProFeedTwitterModel.GetUserByID(user.Id);
-                //need to test                
-                await taskSemaphore.WaitAsync();
+
                 SearchData.FinalList.Add(new TProfile());
                 var inBusiness = ProFeedAlgorithm.IsProfetional(timeline, SearchData.SearchKeys, SearchData.FinalList.Last());
-                //to here
+
                 InsertDataToTProfile(user, index);
                 if (inBusiness > ProFeedApiParameters.ProFeedAppParameters.MIN_RANGE)
                 {
@@ -66,14 +59,9 @@ namespace TwitterAPI.Models
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                taskSemaphore.Release();
-
-            }
 
         }
-        //was work2 before
+        //
         public async Task InfluencersFriendsSearch(IUser user, int index)
         {
             try
@@ -81,12 +69,9 @@ namespace TwitterAPI.Models
                 var timeline = await ProFeedTwitterModel.GetUserTimeline(user);
                 var fullUser = await ProFeedTwitterModel.GetUserByID(user.Id);
 
-                //need to test
-                await taskSemaphore.WaitAsync();
                 
                 SearchData.FinalList.Add(new TProfile());
                 var inBusiness = ProFeedAlgorithm.IsProfetional(timeline, SearchData.SearchKeys, SearchData.FinalList.Last());
-                //to here
                 if (inBusiness > ProFeedApiParameters.ProFeedAppParameters.PRO_RANGE)
                 {
                     
@@ -103,10 +88,6 @@ namespace TwitterAPI.Models
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                taskSemaphore.Release();
             }
         }
 
@@ -161,7 +142,6 @@ namespace TwitterAPI.Models
       
             foreach (IUser iUser in influencers)
             {
-                //await TwitterModel.GetUserTimeline(iUser);
                 influencerIndex = influencers.IndexOf(iUser);
                 var newTaskToAdd = Task.Factory.StartNew(async()=>await InfluencersToProfile(iUser, influencerIndex));
                 threads.Add(newTaskToAdd.Unwrap());
@@ -174,7 +154,7 @@ namespace TwitterAPI.Models
             {
                 Console.WriteLine(ex.Message);
             }
-            //works to here 11-04-21
+           
             //step 3-
             insertToAppStackTrace = "Number of Influencers with potential influencers friends:" + ProFeedAlgorithm.Profetionals.Count;
             SearchData.AppStackTrace.Add(insertToAppStackTrace);
@@ -185,7 +165,6 @@ namespace TwitterAPI.Models
             int potentialInfluencerIndex = 1;
             foreach (IUser user in ProFeedAlgorithm.Profetionals)
             {
-               // TwitterModel.UpdateTwitterClient();
                 try
                 {
                     var userFriends = await ProFeedTwitterModel.GetUserFriends(user.Id);

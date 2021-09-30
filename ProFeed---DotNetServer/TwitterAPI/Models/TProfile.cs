@@ -20,23 +20,18 @@ namespace TwitterAPI.Models
         public int CalculatedTweets { get; set; }
         public int QueryIncludedTweets { get; set; }
         public int RetweetedTweets { get; set; }
-
         public bool IsVerified { get; set; }
         public string Image { get; set; }
+       
         //from algorithm
         public double Impact { get; set; }
         public bool Profetional { get; set; }       
         public int OriginalTweets { get; set; }
         public double TweetsEngagmentRate { get; set; }
-
         public double Engagment { get; set; }
         public double GeneralActivity { get; set; }
         public double Rank { get; set; }
         
-       // public ProfileStackTrace StackTrace {get;set;}
-        
-        //category will obligate relation table in DB
-        //public List<string> Categories { get; set; }
 
         public TProfile()
         {
