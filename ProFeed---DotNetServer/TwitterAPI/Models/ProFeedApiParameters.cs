@@ -17,10 +17,10 @@ namespace TwitterAPI.Models
         }
         public static class TwitterModelParameters
         {
-            public static string ApiKey = "8gJiTw1ohwk6EyfrKduvLJdII";
-            public static string AccessTokenSecret = "b4k5NBgHL5L9ExbL9sJrrDeuYJ4nj88X8IY2VPnqZ0yzG";
-            public static string AccessToken = "1325866978804985857-3Jcrx5kswoPQdxRWB0Fvw8QlJpBPrK";
-            public static string ApiKeySecret = "UovMbaBiR2CFS30wn9MHCgJdh9sebdVEUab35koi1V8r7NqnNw";
+            public static string ApiKey = "";
+            public static string AccessTokenSecret = "";
+            public static string AccessToken = "";
+            public static string ApiKeySecret = "";
         }
         public static class ProFeedAppParameters
         {
